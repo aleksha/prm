@@ -1,7 +1,7 @@
-# amber-prm-pilot-run
+# prm
 
 A simple `Geant4` application to simulate features of the backup solution
-for an AMBER PRM pilot run.
+for an AMBER and PRES PRM runs.
 
 ## Software setup
 
@@ -30,8 +30,8 @@ To setup enviorment, please, follow this: https://github.com/aleksha/pres-mc
 Now, let's get the project:
 ```bash
 cd # you may want to choose other directory
-git clone https://github.com/aleksha/amber-prm-pilot-run.git
-cd amber-prm-pilot-run
+git clone https://github.com/aleksha/prm.git
+cd prm
 ```
 
 ### ESEPP preparation
