@@ -1,4 +1,4 @@
-echo "\nprm: build Geant4 app \n"
+echo "prm: build Geant4 app"
 rm -rf build_g4
 mkdir build_g4
 cd build_g4
