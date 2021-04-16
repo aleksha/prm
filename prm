@@ -1,0 +1,61 @@
+#!/bin/bash
+echo "Command: $1";
+
+# ----- build cmd ----
+if [ $1 = -h ]
+then
+    echo "./prm clean      : clean build and run directories";
+    echo "./prm build      : build Geant4 project (run under g4-mc env)";
+    echo "./prm run-all    : run all four runners (beam, initial and scattered muons, recoil)";
+    echo "./prm run-muon   : run only initial and scattered muons";
+    echo "./prm run-proton : run only recoil";
+    echo "./prm run-noise  : generate noise events";
+fi
+
+# ----- build cmd ----
+if [ $1 = build ]
+then
+    source scripts/build_g4.sh;
+fi
+
+# ----- run-all -----
+if [ $1 = run-all ]
+then
+    source scripts/run_beam.sh;
+    source scripts/run_init.sh;
+    source scripts/run_scat.sh;
+    source scripts/run_prot.sh;
+fi
+
+# ----- run-muon ----
+if [ $1 = run-muon ]
+then
+    source scripts/run_init.sh;
+    source scripts/run_scat.sh;
+fi
+
+# ----- run-proton ----
+if [ $1 = run-proton ]
+then
+    source scripts/run_prot.sh;
+fi
+
+# ----- download noise dump file cmd ----
+if [ $1 = get-noise-dump ]
+then
+    cd noise;
+    wget http://adzyuba.web.cern.ch/adzyuba/d/dump.txt;
+    cd ../;
+fi
+
+# ----- download noise dump file cmd ----
+if [ $1 = run-noise ]
+then
+    source scripts/run_noise.sh
+fi
+
+# ----- clean cmd ----
+if [ $1 = clean ]
+then
+    source scripts/clean.sh;
+fi
