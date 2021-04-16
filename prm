@@ -1,16 +1,31 @@
 #!/bin/bash
-echo "Command: $1";
 
-# ----- build cmd ----
+# ----- help  ----
 if [ $1 = -h ]
 then
-    echo "./prm clean      : clean build and run directories";
-    echo "./prm get-ext    : download beam and noise files";
-    echo "./prm build      : build Geant4 project (run under g4-mc env)";
-    echo "./prm run-all    : run all four runners (beam, initial and scattered muons, recoil)";
-    echo "./prm run-muon   : run only initial and scattered muons";
-    echo "./prm run-proton : run only recoil";
-    echo "./prm run-noise  : generate noise events";
+    echo "SETUP:"
+    echo "./prm get-ext     : download beam and noise files";
+    echo "./prm setup-pilot : prepare Geant4 app for AMBER PRM pilot run"
+    echo ""
+    echo "BUILD:"
+    echo "./prm build       : build Geant4 project (run under g4-mc env)";
+    echo ""
+    echo "RUN:"
+    echo "./prm run         : run all four runners (beam, initial and scattered muons, recoil)";
+    echo "./prm run-muon    : run only initial and scattered muons";
+    echo "./prm run-proton  : run only recoil";
+    echo "./prm run-noise   : generate noise events";
+    echo "./prm run-all     : run Geant4 app and noise app";
+    echo ""
+    echo "CLEAN:"
+    echo "./prm clean       : clean build, run and output directories";
+    echo "./prm clean-ext   : remove all externals";
+    echo "./prm clean-all   : try to refresh as much as possible";
+fi
+
+if [ $1 = --help ]
+then
+    ./prm -h;
 fi
 
 # ----- download noise dump file cmd ----
@@ -26,25 +41,13 @@ then
     cd ../../;
 fi
 
-
-
-# ----- setup pres ----
-if [ $1 = setup-pres ]
-then
-    source control/setup_pres.sh;
-fi
-
 # ----- setup pilot ----
 if [ $1 = setup-pilot ]
 then
     source control/setup_pilot.sh;
 fi
 
-# ----- setup amber ----
-if [ $1 = setup-amber ]
-then
-    source control/setup_amber.sh;
-fi
+
 
 # ----- build cmd ----
 if [ $1 = build ]

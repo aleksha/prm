@@ -1,7 +1,7 @@
 # prm
 
-A simple `Geant4` application to simulate features of the backup solution
-for an AMBER and PRES PRM runs. To start type:
+An application to simulate features of the backup solution
+for an AMBER and PRES PRM runs. It uses Geant4. To start type:
 ```bash
 cd # you may want to choose other directory
 git clone https://github.com/aleksha/prm.git
@@ -16,11 +16,43 @@ This will allow you to:
   * Configure enviorment
   * Download and compile ESEPP event generator
 
-By running
+Next, by running:
 ```bash
 ./prm get-ext
 ```
 one can download beamfile and dump for the noise data.
+
+## To start new project
+
+To prepare to simulate AMBER pilot run event, type:
+```bash
+./prm setup-pilot
+```
+
+In future two other options will be available:
+```bash
+./prm setup-pilot
+./prm setup-amber
+```
+
+## Build `Geant4` app
+
+```bash
+mkdir build_g4
+cd build_g4
+cmake -DGeant4_DIR=/home/adzyuba/miniconda3/envs/g4-mc/lib/Geant4-10.7.1/ ../source
+make -j4
+```
+As a result an `exec_PRM` application should be compiled.
+
+You can use a `build_g4.sh` script to do this.
+```bash
+source scripts/build_g4.sh
+```
+
+**Note:** that this application always needs an `input_g4.txt` file with
+particles to trace!
+
 
 
 
@@ -51,24 +83,6 @@ For AMBER main run:
 ```bash
 ./prm setup-amber
 ```
-
-### Build `Geant4` app
-
-```bash
-mkdir build_g4
-cd build_g4
-cmake -DGeant4_DIR=/home/adzyuba/miniconda3/envs/g4-mc/lib/Geant4-10.7.1/ ../source
-make -j4
-```
-As a result an `exec_PRM` application should be compiled.
-
-You can use a `build_g4.sh` script to do this.
-```bash
-source scripts/build_g4.sh
-```
-
-**Note:** that this application always needs an `input_g4.txt` file with
-particles to trace!
 
 ### Beam noise and scattering event
 

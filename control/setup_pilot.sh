@@ -1,5 +1,10 @@
-echo "Setup AMBER-pilot geometry"
-cp -v ../configs/geom/pilot/geom_config.h ../configs/geom/;
-cp -v ../configs/geom/pilot/PRMDetectorConstruction.hh ../source/include/ ;
-cp -v ../configs/geom/pilot/PRMDetectorConstruction.cc ../source/src/ ;
-echo "Setup is done. You can try to build app."
+echo "";
+echo "Setup AMBER-pilot geometry";
+mkdir build;
+cd build;
+cp -r -v ../code/g4app/pilot source
+cd source;
+cp -v ../../configs/geom/amber-pilot/geom_config.h ./;
+cd ../../;
+echo "Setup is done. You can try to build app.";
+echo "";
