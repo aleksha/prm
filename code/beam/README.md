@@ -1,18 +1,15 @@
 # Beamfile
 
-## How to get and convert beamfile
-
-```bash
-wget http://adzyuba.web.cern.ch/adzyuba/d/beamfile_prm_mu100.root
-```
+## How to use beamfile
 
 To create input file for Geant4 application to simulate beam noise 
 one should edit and run `create_input_beam.py` scripts. It will
 randomly select certain number of events and put them into an input file.
+
 ```bash
 conda deactivate
 conda activate pres-mc
-ostap -b beamfile_prm_mu100.root create_input_beam.py
+ostap -b ../../external/beam/beamfile_prm_mu100.root create_input_beam.py
 ```
 **Note:** same event can appear in the input file more than once!
 

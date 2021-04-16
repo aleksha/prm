@@ -44,7 +44,23 @@ cp ../configs/esepp/config.ini ./
 python start.py config.ini
 ```
 
-## Beamfile
+## Other externals
+
+### Beamfile
 
 
-## Noise data
+### Noise data
+
+### How to get them?
+
+This should work presuming that you are in `external/` directory:
+
+```bash
+rm -rf beam noise;
+mkdir beam noise;
+cd noise;
+wget http://adzyuba.web.cern.ch/adzyuba/d/dump.txt;
+cd ../beam;
+wget http://adzyuba.web.cern.ch/adzyuba/d/beamfile_prm_mu100.root
+cd ../../;
+```

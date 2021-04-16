@@ -5,12 +5,28 @@ echo "Command: $1";
 if [ $1 = -h ]
 then
     echo "./prm clean      : clean build and run directories";
+    echo "./prm get-ext    : download beam and noise files";
     echo "./prm build      : build Geant4 project (run under g4-mc env)";
     echo "./prm run-all    : run all four runners (beam, initial and scattered muons, recoil)";
     echo "./prm run-muon   : run only initial and scattered muons";
     echo "./prm run-proton : run only recoil";
     echo "./prm run-noise  : generate noise events";
 fi
+
+# ----- download noise dump file cmd ----
+if [ $1 = get-ext ]
+then
+    cd external
+    rm -rf beam noise;
+    mkdir beam noise;
+    cd noise;
+    wget http://adzyuba.web.cern.ch/adzyuba/d/dump.txt;
+    cd ../beam;
+    wget http://adzyuba.web.cern.ch/adzyuba/d/beamfile_prm_mu100.root
+    cd ../../;
+fi
+
+
 
 # ----- setup pres ----
 if [ $1 = setup-pres ]
@@ -56,14 +72,6 @@ fi
 if [ $1 = run-proton ]
 then
     source control/run_prot.sh;
-fi
-
-# ----- download noise dump file cmd ----
-if [ $1 = get-noise-dump ]
-then
-    cd noise;
-    wget http://adzyuba.web.cern.ch/adzyuba/d/dump.txt;
-    cd ../;
 fi
 
 # ----- download noise dump file cmd ----
