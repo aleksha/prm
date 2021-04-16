@@ -1,60 +1,28 @@
 # prm
 
 A simple `Geant4` application to simulate features of the backup solution
-for an AMBER and PRES PRM runs.
-
-## Software setup
-
-### Enviorment
-
-This project is tested with `conda` package solution.
-First one have to setup and configure `conda`:
-```bash
-wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-sh Miniconda3-latest-Linux-x86_64.sh
-source ~/miniconda3/etc/profile.d/conda.sh
-conda config --add channels conda-forge
-```
-
-Second, create `Geant4` envoirment:
-```bash
-conda create --name g4-mc geant4 compilers cmake make
-conda activate g4-mc
-```
-
-Third, create envoirment for `ESEPP`, `ROOT` and `OstapHEP`.
-To setup enviorment, please, follow this: https://github.com/aleksha/pres-mc 
-
-### Get source of the project
-
-Now, let's get the project:
+for an AMBER and PRES PRM runs. To start type:
 ```bash
 cd # you may want to choose other directory
 git clone https://github.com/aleksha/prm.git
 cd prm
 ```
 
-### ESEPP preparation
+## Software setup
 
-It's better to use automatic config version for the `ESEPP`.
-```bash
-git clone https://github.com/nuramatov/esepp.git
-cd esepp
-make
-```
-Edit `config.ini` and run it:
-```bash
-cp ../configs/esepp/config.ini ./
-python start.py config.ini
-```
+To setup software, please, go to `external` direcory 
+and follow instructions in `README.md`.
+This will allow you to:
+  * Configure enviorment
+  * Download and compile ESEPP event generator
 
-Instead of cloning from github one can download a frozen version:
+By running
 ```bash
-wget http://adzyuba.web.cern.ch/adzyuba/d/esepp.tar.gz
-tar zxvf esepp.tar.gz
-cd esepp/
-make
+./prm get-ext
 ```
+one can download beamfile and dump for the noise data.
+
+
 
 ## Full event
 

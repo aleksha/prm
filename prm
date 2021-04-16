@@ -15,47 +15,47 @@ fi
 # ----- setup pres ----
 if [ $1 = setup-pres ]
 then
-    source scripts/setup-pres.sh;
+    source control/setup_pres.sh;
 fi
 
 # ----- setup pilot ----
 if [ $1 = setup-pilot ]
 then
-    source scripts/setup-pilot.sh;
+    source control/setup_pilot.sh;
 fi
 
 # ----- setup amber ----
 if [ $1 = setup-amber ]
 then
-    source scripts/setup-amber.sh;
+    source control/setup_amber.sh;
 fi
 
 # ----- build cmd ----
 if [ $1 = build ]
 then
-    source scripts/build_g4.sh;
+    source control/build_g4.sh;
 fi
 
 # ----- run-all -----
 if [ $1 = run-all ]
 then
-    source scripts/run_beam.sh;
-    source scripts/run_init.sh;
-    source scripts/run_scat.sh;
-    source scripts/run_prot.sh;
+    source control/run_beam.sh;
+    source control/run_init.sh;
+    source control/run_scat.sh;
+    source control/run_prot.sh;
 fi
 
 # ----- run-muon ----
 if [ $1 = run-muon ]
 then
-    source scripts/run_init.sh;
-    source scripts/run_scat.sh;
+    source control/run_init.sh;
+    source control/run_scat.sh;
 fi
 
 # ----- run-proton ----
 if [ $1 = run-proton ]
 then
-    source scripts/run_prot.sh;
+    source control/run_prot.sh;
 fi
 
 # ----- download noise dump file cmd ----
@@ -69,11 +69,11 @@ fi
 # ----- download noise dump file cmd ----
 if [ $1 = run-noise ]
 then
-    source scripts/run_noise.sh
+    source control/run_noise.sh
 fi
 
 # ----- clean cmd ----
 if [ $1 = clean ]
 then
-    source scripts/clean.sh;
+    source control/clean.sh;
 fi
