@@ -61,7 +61,7 @@ void load_Digi(){
   double digi;
 
   if(ADD_SHAPING){
-      std::ifstream fDIGI("./DigiC.txt" , std::ios::in);
+      std::ifstream fDIGI("../configs/digi.calib" , std::ios::in);
       while( fDIGI >> channel >> digi ) Digi[channel]=digi;
       fDIGI.close();
   } else{
