@@ -66,6 +66,24 @@ The idea is to create events, which contains:
 First as well as second step are done with a `Geant4` application.
 The third is done with a `python` application. 
 
+### Choose subproject
+
+
+For PRES experiment:
+```bash
+./prm setup-pres
+```
+
+For AMBER pilot run:
+```bash
+./prm setup-pilot
+```
+
+For AMBER main run:
+```bash
+./prm setup-amber
+```
+
 ### Build `Geant4` app
 
 ```bash

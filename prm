@@ -12,6 +12,24 @@ then
     echo "./prm run-noise  : generate noise events";
 fi
 
+# ----- setup pres ----
+if [ $1 = setup-pres ]
+then
+    source scripts/setup-pres.sh;
+fi
+
+# ----- setup pilot ----
+if [ $1 = setup-pilot ]
+then
+    source scripts/setup-pilot.sh;
+fi
+
+# ----- setup amber ----
+if [ $1 = setup-amber ]
+then
+    source scripts/setup-amber.sh;
+fi
+
 # ----- build cmd ----
 if [ $1 = build ]
 then

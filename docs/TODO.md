@@ -23,11 +23,12 @@
   * TPC signal builder
   * Hits accounting
   * Detector setup config
+  * Transfer to a new repository -- `prm/`
+  * Setup scripts (PRES, AMBER and AMBER-pilot)
 
 
 ## Updating in progress
   * Setup notes
-  * Transfer to a new repository -- `prm/`
 
 ## To be done
   * Create beam noise event
