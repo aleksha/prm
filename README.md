@@ -37,23 +37,15 @@ In future two other options will be available:
 
 ## Build `Geant4` app
 
+First you must activete proper envoirment and then run command:
 ```bash
-mkdir build_g4
-cd build_g4
-cmake -DGeant4_DIR=/home/adzyuba/miniconda3/envs/g4-mc/lib/Geant4-10.7.1/ ../source
-make -j4
+conda activate g4-mc
+./prm build
 ```
 As a result an `exec_PRM` application should be compiled.
 
-You can use a `build_g4.sh` script to do this.
-```bash
-source scripts/build_g4.sh
-```
-
 **Note:** that this application always needs an `input_g4.txt` file with
 particles to trace!
-
-
 
 
 ## Full event

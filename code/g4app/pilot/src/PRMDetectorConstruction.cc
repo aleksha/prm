@@ -14,7 +14,7 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 
-#include "../../configs/geom/geom_config.h"
+#include "../geom_config.h"
 //------------------------------------------------------------------------------
 PRMDetectorConstruction::PRMDetectorConstruction()
 : G4VUserDetectorConstruction(),
