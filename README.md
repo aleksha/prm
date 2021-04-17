@@ -35,6 +35,19 @@ In future two other options will be available:
 ./prm setup-amber
 ```
 
+### Electronic noise
+
+See information in the `code/noise` directory.
+The speeded-up version is in use.
+
+A configuration file is `configs/noise/config_noise.py`.
+Dump file should be in `externals/noise/` directory (see above).
+To create noise events, please, use next command:
+```bash
+./prm run-noise
+```
+
+
 ## Build `Geant4` app
 
 First you must activete proper envoirment and then run command:
@@ -58,23 +71,6 @@ The idea is to create events, which contains:
 First as well as second step are done with a `Geant4` application.
 The third is done with a `python` application. 
 
-### Choose subproject
-
-
-For PRES experiment:
-```bash
-./prm setup-pres
-```
-
-For AMBER pilot run:
-```bash
-./prm setup-pilot
-```
-
-For AMBER main run:
-```bash
-./prm setup-amber
-```
 
 ### Beam noise and scattering event
 
@@ -106,7 +102,3 @@ You can also use `./prm` shell app.
 **Note:** initial lepton goes backward in time (this will be 
 accounted on the reco-stage).
 
-### Electronic noise
-
-See information in the `noise` directory.
-The speeded-up version is in use.

@@ -4,12 +4,14 @@
 # see for details
 # https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.rfft.html#scipy.fftpack.rfft
 #===============================================================================
-dump_file_path = "../../external/noise/dump.txt"
-n_batches =    10
-n_events  = 10000 # events per batch
+#
+#  IMPORTANT: config must be runned first!
+#
+#  SEE: configs/noise/config_noise.py
+#
+#
 #===============================================================================
-N_CHANNELS     = 2692
-BAN_LEVEL      = 65
+exec(open("config_noise.py").read())
 #===============================================================================
 import shelve
 import numpy as np
@@ -67,7 +69,7 @@ class anode_noise:
         plt.grid( True )
         plt.xlabel("maximal difference from event base line")
         plt.ylabel("events")
-        plt.savefig( "MAX_DIFF.png" )
+        #plt.savefig( "MAX_DIFF.png" )
         plt.clf()
 
         dumpfile = open(self.path,"r")
