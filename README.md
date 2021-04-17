@@ -38,7 +38,7 @@ In future two other options will be available:
 ./prm setup-amber
 ```
 
-## Build and run `Geant4` app
+## Build `Geant4` app
 
 First you must activete proper envoirment and then run command:
 ```bash
@@ -60,7 +60,9 @@ conda activate g4-mc
 ```
 
 For the initial lepton times will be reversed by a dedicated script,
-which is in the chain.
+which is in the chain. All events stored in different
+`out.data`  and `tpc.data` files  will be merged and stored in
+the `output/all` directory.
 
 
 ## Electronic noise
@@ -75,5 +77,3 @@ To create noise events, please, use next command:
 conda activate pres-mc
 ./prm run-noise
 ```
-
-
