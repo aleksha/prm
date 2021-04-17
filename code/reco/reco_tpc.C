@@ -2,8 +2,9 @@
 #include <iostream>
 #include <iomanip>
 
-#include "fadc.cc"
-#include "histo_funcs.cc"
+// To be copied into output dir ad run there
+#include "../code/reco/fadc.cc"
+#include "../code/reco/histo_funcs.cc"
 #include "../configs/reco/config_tpc.h"
 
 #include "TGraph.h"
@@ -61,7 +62,7 @@ void load_Digi(){
   double digi;
 
   if(ADD_SHAPING){
-      std::ifstream fDIGI("../configs/digi.calib" , std::ios::in);
+      std::ifstream fDIGI("../configs/reco/digi.calib" , std::ios::in);
       while( fDIGI >> channel >> digi ) Digi[channel]=digi;
       fDIGI.close();
   } else{
@@ -76,24 +77,6 @@ void load_Digi(){
 }
 
 
-void gen_time_shifts(){
-    double beam_noise_time = 0.;
-    ts=0;
-    // go fwd
-    while ( beam_noise_time < 2550.*40.){
-        beam_noise_time += gRandom->Exp( 1000./BeamFrequency );
-        time_shifts[ts] = beam_noise_time;
-        ts++;
-    }
-    // go bkwd
-    beam_noise_time = 0.;
-    while ( beam_noise_time > -2550.*40.){
-        beam_noise_time -= gRandom->Exp( 1000./BeamFrequency );
-        time_shifts[ts] = beam_noise_time;
-        ts++;
-    }
-}
-                
 
 
 void reco_tpc( int Evts=MY_EVTS){
@@ -101,7 +84,6 @@ void reco_tpc( int Evts=MY_EVTS){
   int N_e, Nsub;
   int N_s=0;
   double l, X, Y, Z, t_anod, d_anod, tt;
-  
 
   load_Digi();
 
@@ -129,16 +111,14 @@ void reco_tpc( int Evts=MY_EVTS){
             pFADC.Form ("hFADS_%d", pad);
         }
         hFADC[pad] = new TH1F( pFADC," ;time, ns; voltage, a.u.", 2550, 0., 40.*2550. );
-        hFADC[pad]->GetXaxis()->SetRangeUser(0,20000);
+//        hFADC[pad]->GetXaxis()->SetRangeUser(0,20000);
 //        hFADC[pad]->GetXaxis()->SetRangeUser(90000,100000);
 //        hFADC[pad]->GetYaxis()->SetRangeUser(8000,16000);
         hFADC[pad]->SetMinimum(0);
     }
-        
 
-    std::ifstream fPROT("../run_prot/tpc.data" , std::ios::in);
-    std::ifstream fBEAM("../run_beam/tpc.data" , std::ios::in);
-    std::ifstream fNOIS("../noise/noise.data"  , std::ios::in);
+    std::ifstream fPROT("all/tpc.data" , std::ios::in);
+    std::ifstream fNOIS("noise/noise.data"  , std::ios::in);
     std::ofstream fOUT("./signal.data"  , std::ios::trunc);
 
 
@@ -158,11 +138,6 @@ void reco_tpc( int Evts=MY_EVTS){
                 }
             }
 
-            // Beam Noise
-            if( ADD_BEAM ){
-                gen_time_shifts();
-            }
-
             // Eval signal info
             for(int p=0;p<12;p++){
                 info[p] = eval_info( hFADC[p] );
@@ -174,7 +149,8 @@ void reco_tpc( int Evts=MY_EVTS){
                 fOUT << "\n" ;
             }
 
-            if( !(ev%50) ) std::cout << "PROCESSED: "<< ev << " events\n";
+//            if( !(ev%5) ) std::cout << "PROCESSED: "<< ev << " events\n";
+            std::cout << "PROCESSED: "<< ev << " events\n";
 
             if(ev==Evts) break;
 
@@ -188,8 +164,7 @@ void reco_tpc( int Evts=MY_EVTS){
 
             N_e = int( dE/ I_av );
             ll = 1000.*sqrt(pow(xf-xi,2)+pow(yf-yi,2)+pow(zf-zi,2));
-            Nsub = int(N_e/Ne_MAX);  
-            
+            Nsub = int(N_e/Ne_MAX);
             if(Nsub < int(ll/Ll_MAX)) Nsub = int(ll/Ll_MAX);
 
             if(Nsub<1) Nsub=1;
@@ -234,7 +209,6 @@ void reco_tpc( int Evts=MY_EVTS){
     }
 
     fPROT.close();
-    fBEAM.close();
     fNOIS.close();
     fOUT.close();
 

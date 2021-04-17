@@ -28,9 +28,6 @@ while ev<EVENTS:
         times.append( current_time )
     for tb in times:
         tree.GetEntry( ROOT.gRandom.Integer(length) )
-        if USE_CORE:
-            while tree.particleFlag!=2:
-                tree.GetEntry( ROOT.gRandom.Integer(length) )
         ss  = str(ev) + " 13 " + str(tree.X) + " " + str(tree.Y) + " -6299. "
         ss += str(tree.P*tree.dXdZ*0.001) + " " + str(tree.P*tree.dYdZ*0.001) + " "  + str(tree.P) + " "
         ss += str(tb) + "\n"

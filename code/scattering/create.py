@@ -28,13 +28,23 @@ esepp_scat_list = []
 esepp_prot_list = []
 m_l = 0.105658
 m_p = 0.938272
+ent = 0
 for e in in_list:
     idx = in_list.index(e)
     Z_scat = ROOT.gRandom.Rndm()*800.-400.
+    while (Z_scat<Z_LOW or Z_scat>Z_HIGH):
+        Z_scat = ROOT.gRandom.Rndm()*800.-400.
     dZ = Z_scat - e[3]
     X_scat = e[1] + dZ*sin(e[4])
     Y_scat = e[2] + dZ*sin(e[5])
-    ntp.GetEntry( idx )
+    accept = False
+    while not accept:
+        ntp.GetEntry( ent )
+        ent+=1
+        #print(ntp.E_p-m_p*1000.)
+        if ntp.E_p-m_p*1000.>T_P_LOW:
+            if ntp.E_p-m_p*1000.<T_P_HIGH:
+                accept = True
     esepp_init_list.append( (e[0] , X_scat, Y_scat, Z_scat, -100.*e[4], -100.*e[5], -100.) )
     direction = ROOT.TVector3(e[4],e[5], cos( asin( sqrt(e[4]**2+e[5]**2) ) ) ).Unit()
     lepton = ROOT.TVector3()

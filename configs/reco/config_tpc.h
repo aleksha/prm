@@ -1,9 +1,5 @@
 
-int MY_EVTS = 500;
-
-//--- Beam events
-bool ADD_BEAM = false;
-double BeamFrequency = 2.0; // MHz
+int MY_EVTS = 2;
 
 //--- Anodes positions
 double Z_anode_1 = -400.;
@@ -27,13 +23,13 @@ double DIFF_P =0.06; // parameter is obtained from German Korolev (PNPI)
 double DIFF_L =0.08; // parameter is obtained from German Korolev (PNPI)
 
 //--- Noise
-bool ADD_NOISE = true;
+bool ADD_NOISE = false;
 
-//--- Draw lact event 
+//--- Draw lact event
 bool DRAW_LAST   = true;
 
 //--- Write ASCII
-bool WRITE_ASCII = true;
+bool WRITE_ASCII = false;
 int  CH_WRITE    = 1;
 int  CH_START    = 1;
 int  CH_STOP     = 501;
