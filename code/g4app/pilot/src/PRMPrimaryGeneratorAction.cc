@@ -95,7 +95,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
     case 2212:
       particle1 = new G4PrimaryParticle(particleDefProton);
       //G4cout  << "p+" << G4endl;
-      break;    
+      break;
     case 1000010020:
       particle1 = new G4PrimaryParticle(particleDefDeuteron);
       break;
@@ -104,10 +104,10 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
       break;
     default:
       particle1 = new G4PrimaryParticle(particleDefMum);
-      break;    
+      break;
   }
-  
-  
+
+
   fXmom = fXp*GeV; fYmom = fYp*GeV; fZmom = fZp*GeV;
   fXpos = fX*mm;   fYpos = fY*mm;   fZpos = fZ*mm;
   G4ThreeVector positionB( fXpos, fYpos, fZpos );
@@ -118,6 +118,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
   G4PrimaryVertex* vertexB = new G4PrimaryVertex(positionB, 0);
   vertexB->SetPrimary(particle1);
 
+  event->SetEventID(ev_num);
   event->AddPrimaryVertex(vertexB);
 }
 
