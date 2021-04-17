@@ -30,6 +30,7 @@ To prepare to simulate AMBER pilot run event, type:
 ```
 It will create `output` directories with proper subdirectories,
 which contain mac and seed files, as well as `input_g4.txt`.
+Beam evants are also generated here.
 
 In future two other options will be available:
 ```bash
@@ -37,20 +38,7 @@ In future two other options will be available:
 ./prm setup-amber
 ```
 
-### Electronic noise
-
-See information in the `code/noise` directory.
-The speeded-up version is in use.
-
-A configuration file is `configs/noise/config_noise.py`.
-Dump file should be in `externals/noise/` directory (see above).
-To create noise events, please, use next command:
-```bash
-./prm run-noise
-```
-
-
-## Build `Geant4` app
+## Build and run `Geant4` app
 
 First you must activete proper envoirment and then run command:
 ```bash
@@ -63,44 +51,29 @@ As a result an `exec_PRM` application should be compiled.
 particles to trace!
 
 
-## Full event
+## Events with a beam noise
 
-The idea is to create events, which contains:
-  1. Elastic scattering ( initial particle / scattered particle /  recoil proton )
-  2. Beam noise (for certain beam frequency)
-  3. Electronic noise
-
-First as well as second step are done with a `Geant4` application.
-The third is done with a `python` application. 
-
-
-### Beam noise and scattering event
-
-Next step is to run application for a beam noise.
-It uses an input file, which must be created.
-Follow instructions in `beamfile/README.md`.
-
-Please, use `run_beam.sh` script to create particles, which will be later
-used for the beam noise production.
-
-To create three scattering particles see `scattering/` directory.
-After input files will be created, please, use
-`run_init.sh`, `run_scat.sh` and `run_prot.sh` scripts.
-
+Next command will run four prepared runners:
 ```bash
-source scripts/run_beam.sh
-source scripts/run_init.sh
-source scripts/run_scat.sh
-source scripts/run_prot.sh
+conda activate g4-mc
+./prm run
 ```
 
-You can also use `./prm` shell app.
+For the initial lepton times will be reversed by a dedicated script,
+which is in the chain.
+
+
+## Electronic noise
+
+See information in the `code/noise` directory.
+The speeded-up version is in use.
+
+A configuration file is `configs/noise/config_noise.py`.
+Dump file should be in `externals/noise/` directory (see above).
+To create noise events, please, use next command:
 ```bash
-./prm build
-./prm run-all
-./prm clean
+conda activate pres-mc
+./prm run-noise
 ```
 
-**Note:** initial lepton goes backward in time (this will be 
-accounted on the reco-stage).
 

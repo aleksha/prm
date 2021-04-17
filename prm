@@ -17,8 +17,7 @@ then
     echo "./prm run         : run all four runners (beam, initial and scattered muons, recoil)";
     echo "./prm run-muon    : run only initial and scattered muons";
     echo "./prm run-proton  : run only recoil";
-    echo "./prm run-noise   : generate noise events";
-    echo "./prm run-all     : run Geant4 app and noise app";
+    echo "./prm run-noise   : generate noise events (pres-mc env)";
     echo ""
     echo "CLEAN:"
     echo "./prm clean       : clean build, run and output directories";
@@ -64,7 +63,7 @@ then
 fi
 
 # ----- run-all -----
-if [ $1 = run-all ]
+if [ $1 = run ]
 then
     source control/run_beam.sh;
     source control/run_init.sh;

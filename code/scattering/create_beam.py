@@ -32,7 +32,7 @@ while ev<EVENTS:
             while tree.particleFlag!=2:
                 tree.GetEntry( ROOT.gRandom.Integer(length) )
         ss  = str(ev) + " 13 " + str(tree.X) + " " + str(tree.Y) + " -6299. "
-        ss += str(tree.P*tree.dXdZ) + " " + str(tree.P*tree.dYdZ) + " "  + str(tree.P) + " "
+        ss += str(tree.P*tree.dXdZ*0.001) + " " + str(tree.P*tree.dYdZ*0.001) + " "  + str(tree.P) + " "
         ss += str(tb) + "\n"
         beam_events += 1
         out_file.write( ss )
