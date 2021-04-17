@@ -63,7 +63,7 @@ def list2file( lst, fname ):
         ss += str( ev[3] ) + " "
         ss += str( ev[4] ) + " "
         ss += str( ev[5] ) + " "
-        ss += str( ev[6] ) + "\n"
+        ss += str( ev[6] ) + " 0.0\n" # scattering occurs in t=0
         out_file.write( ss )
     out_file.close()
 #===============================================================================

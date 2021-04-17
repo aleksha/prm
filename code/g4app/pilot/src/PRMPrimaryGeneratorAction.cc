@@ -35,7 +35,8 @@ class PrimaryGenerator : public G4VPrimaryGenerator
   private:
     G4double fXpos, fYpos, fZpos;      // position
     G4double fXmom, fYmom, fZmom;      // momentum projections
-    double fX, fY, fZ, fXp, fYp, fZp;
+    G4double timeB;
+    double fX, fY, fZ, fXp, fYp, fZp, fTime;
     int pcode, ev_num;
 
     std::ifstream in_file ;
@@ -44,18 +45,18 @@ class PrimaryGenerator : public G4VPrimaryGenerator
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 PrimaryGenerator::PrimaryGenerator()
 : G4VPrimaryGenerator()
-{ 
+{
   in_file.open("input_g4.txt", std::ios::in   );
 }
 
 PrimaryGenerator::~PrimaryGenerator()
-{ 
+{
   in_file.close();
 }
 
 void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 {
-  in_file  >> ev_num >> pcode >> fX >> fY >> fZ >> fXp >> fYp >> fZp;
+  in_file  >> ev_num >> pcode >> fX >> fY >> fZ >> fXp >> fYp >> fZp >> fTime;
 
   G4ParticleDefinition* particleDefGamma    = G4ParticleTable::GetParticleTable()->FindParticle("gamma");
   G4ParticleDefinition* particleDefMup      = G4ParticleTable::GetParticleTable()->FindParticle("mu+");
@@ -65,14 +66,14 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
   G4ParticleDefinition* particleDefPim      = G4ParticleTable::GetParticleTable()->FindParticle("pi-");
   G4ParticleDefinition* particleDefPip      = G4ParticleTable::GetParticleTable()->FindParticle("pi+");
   G4ParticleDefinition* particleDefProton   = G4ParticleTable::GetParticleTable()->FindParticle("proton");
-  G4ParticleDefinition* particleDefDeuteron = G4ParticleTable::GetParticleTable()->FindParticle("deuteron");  
-  G4ParticleDefinition* particleDefAlpha    = G4ParticleTable::GetParticleTable()->FindParticle("alpha");  
+  G4ParticleDefinition* particleDefDeuteron = G4ParticleTable::GetParticleTable()->FindParticle("deuteron");
+  G4ParticleDefinition* particleDefAlpha    = G4ParticleTable::GetParticleTable()->FindParticle("alpha");
   G4PrimaryParticle* particle1;
 
   switch(pcode) {
     case 22:
       particle1 = new G4PrimaryParticle(particleDefGamma);
-      break;    
+      break;
     case 11:
       particle1 = new G4PrimaryParticle(particleDefEm);
       break;
@@ -110,12 +111,13 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 
   fXmom = fXp*GeV; fYmom = fYp*GeV; fZmom = fZp*GeV;
   fXpos = fX*mm;   fYpos = fY*mm;   fZpos = fZ*mm;
+  timeB = fTime*ns;
   G4ThreeVector positionB( fXpos, fYpos, fZpos );
 
   particle1->SetMomentum( fXmom, fYmom, fZmom );
   //G4cout  << particle1->GetMass() << " " << particle1->GetKineticEnergy()  << G4endl;
 
-  G4PrimaryVertex* vertexB = new G4PrimaryVertex(positionB, 0);
+  G4PrimaryVertex* vertexB = new G4PrimaryVertex(positionB, timeB);
   vertexB->SetPrimary(particle1);
 
   event->SetEventID(ev_num);

@@ -28,6 +28,8 @@ To prepare to simulate AMBER pilot run event, type:
 ```bash
 ./prm setup-pilot
 ```
+It will create `output` directories with proper subdirectories,
+which contain mac and seed files, as well as `input_g4.txt`.
 
 In future two other options will be available:
 ```bash

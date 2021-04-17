@@ -39,6 +39,12 @@ mv init_lepton.txt init/input_g4.txt;
 mv scat_lepton.txt scat/input_g4.txt;
 mv scat_proton.txt prot/input_g4.txt;
 mv create.py scripts_done;
+# ===== BEAM NOISE
+mkdir output/beam;
+cp -r ../code/scattering/create_beam.py ./;
+ostap -b create_beam.py;
+mv rand_beam.txt run.mac beam/ ;
+cp -r ../configs/seeds/seed_beam beam/seed;
 echo "Setup is done. You can try to build app.";
 echo "";
 echo "Don't forget:";
