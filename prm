@@ -93,6 +93,8 @@ fi
 if [ $1 = clean-ext ]
 then
     rm -rf external/beam external/noise;
+#    rm external/esepp/*root;
+#    rm external/esepp/*info;
 fi
 
 # ----- clean cmd ----
@@ -100,4 +102,5 @@ if [ $1 = clean-all ]
 then
     ./prm clean
     ./prm clean-ext;
+    rm -rf external/esepp*;
 fi

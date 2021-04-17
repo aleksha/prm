@@ -4,7 +4,7 @@
 # see for details
 # https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.rfft.html#scipy.fftpack.rfft
 #===============================================================================
-dump_file_path = "./dump.txt"
+dump_file_path = "../../external/noise/dump.txt"
 n_batches =    10
 n_events  = 10000 # events per batch
 #===============================================================================

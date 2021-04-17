@@ -12,7 +12,6 @@ More on https://github.com/aleksha/electronic-noise
 To generate events:
 ```bash
 conda activate pres-mc
-wget http://adzyuba.web.cern.ch/adzyuba/d/dump.txt
 python3 anode_noise.py
 cat temp_*txt > noise.data
 rm temp_*txt
