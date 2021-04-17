@@ -40,7 +40,7 @@ mv scat_lepton.txt scat/input_g4.txt;
 mv scat_proton.txt prot/input_g4.txt;
 mv create.py scripts_done;
 # ===== BEAM NOISE
-mkdir output/beam;
+mkdir beam;
 cp -r ../code/scattering/create_beam.py ./;
 ostap -b create_beam.py;
 mv rand_beam.txt run.mac beam/ ;

@@ -36,6 +36,8 @@ while ev<EVENTS:
         ss += str(tb) + "\n"
         beam_events += 1
         out_file.write( ss )
+    if not ev%10:
+        print( str(ev)+ " BEAM EVENTS")
     ev+=1
 #===============================================================================
 out_file.close()
