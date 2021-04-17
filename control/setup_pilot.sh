@@ -43,8 +43,11 @@ mv create.py scripts_done;
 mkdir beam;
 cp -r ../code/scattering/create_beam.py ./;
 ostap -b create_beam.py;
-mv rand_beam.txt run.mac beam/ ;
+mv run.mac beam/ ;
+mv rand_beam.txt beam/input_g4.txt ;O
 cp -r ../configs/seeds/seed_beam beam/seed;
+mv create_beam.py scripts_done/ ;
+cd ../;
 echo "Setup is done. You can try to build app.";
 echo "";
 echo "Don't forget:";
