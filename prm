@@ -88,3 +88,16 @@ if [ $1 = clean ]
 then
     source control/clean.sh;
 fi
+
+# ----- clean cmd ----
+if [ $1 = clean-ext ]
+then
+    rm -rf external/beam external/noise;
+fi
+
+# ----- clean cmd ----
+if [ $1 = clean-all ]
+then
+    ./prm clean
+    ./prm clean-ext;
+fi
