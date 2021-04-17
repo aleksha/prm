@@ -1,5 +1,8 @@
 # External dependencies
 
+Envoirment, external data as well as event generator have to be set 
+in advance.
+
 ## Enviorment
 
 This project is tested with `conda` package solution.
@@ -43,9 +46,15 @@ make
 
 If you want to run it manually? please, edit `config.ini` and run it:
 ```bash
-cp ../configs/esepp/config.ini ./
+cp ../../configs/esepp/config.ini ./
 python start.py config.ini
 ```
+or run
+```bash
+conda activate pres-mc
+./prm esepp
+```
+in the project direcory.
 
 ## Other externals
 

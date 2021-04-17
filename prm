@@ -7,6 +7,9 @@ then
     echo "./prm get-ext     : download beam and noise files";
     echo "./prm setup-pilot : prepare Geant4 app for AMBER PRM pilot run"
     echo ""
+    echo "ESEPP:"
+    echo "./prm esepp       : run ESEPP generator with configs/esepp/config.ini";
+    echo ""
     echo "BUILD:"
     echo "./prm build       : build Geant4 project (run under g4-mc env)";
     echo ""
@@ -47,6 +50,11 @@ then
     source control/setup_pilot.sh;
 fi
 
+# ----- esepp run  ----
+if [ $1 = esepp ]
+then
+    source control/gen_esepp.sh;
+fi
 
 
 # ----- build cmd ----
