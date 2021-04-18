@@ -1,5 +1,5 @@
 
-int MY_EVTS = 2;
+int MY_EVTS = 98;
 
 //--- Anodes positions
 double Z_anode_1 = -400.;
@@ -18,7 +18,7 @@ double W1 = 4.0*0.001; // mm/ns
 bool ADD_SHAPING = true;
 
 //--- Diffusion
-bool  ADD_DIFFUSION = true;
+bool  ADD_DIFFUSION = false;
 double DIFF_P =0.06; // parameter is obtained from German Korolev (PNPI)
 double DIFF_L =0.08; // parameter is obtained from German Korolev (PNPI)
 
