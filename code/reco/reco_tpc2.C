@@ -135,10 +135,16 @@ void reco_tpc2( int Evts=MY_EVTS ){
 
     TH1F *hSL = new TH1F("hSL",";l, mm;", 3500, -3500, 3500);
     TH1F *hST = new TH1F("hST",";t, ch;", 3500, -3500, 3500);
-    std::ifstream fPROT("all/tpc.data" , std::ios::in);
+    std::ifstream fINIT("prot/input_g4.txt" , std::ios::in);
+    std::ifstream fPROT("all/tpc.data"      , std::ios::in);
     std::ifstream fNOIS("noise/noise.data"  , std::ios::in);
-    std::ofstream fOUT("./signal.data"  , std::ios::trunc);
+    std::ofstream fOUT("./signal.data"      , std::ios::trunc);
 
+    int inEv, inPcode;
+    double inX, inY, inZ, inT;
+    double inPx, inPy, inPz;
+    double inTp;
+    double m_p = 0.938272;
 
     out_tree = new TTree("out_tree","tpc");
     for(int pad=0;pad<12;pad++){
@@ -171,6 +177,15 @@ void reco_tpc2( int Evts=MY_EVTS ){
         out_tree->Branch( pFADC, &info[pad].energy );
     }
 
+    out_tree->Branch("inX",&inX);
+    out_tree->Branch("inY",&inY);
+    out_tree->Branch("inZ",&inZ);
+    out_tree->Branch("inT",&inT);
+    out_tree->Branch("inPx",&inPx);
+    out_tree->Branch("inPy",&inPy);
+    out_tree->Branch("inPz",&inPz);
+    out_tree->Branch("inTp",&inTp);
+    
     int same_pad=0;
     int steps = 0;
     float E_same = 0.;
@@ -218,6 +233,9 @@ void reco_tpc2( int Evts=MY_EVTS ){
             same_pad=0; steps=0;
             E_same = 0.;
             E_diff = 0.;
+
+            fINIT >> inEv >> inPcode >> inX >> inY >> inZ >> inPx >> inPy >> inPz >> inT ;
+            inTp = 1000.*( sqrt(m_p*m_p+inPx*inPx+inPy*inPy+inPz*inPz) - m_p);
 
             out_tree->Fill();
             if(ev==Evts) break;
@@ -273,6 +291,7 @@ void reco_tpc2( int Evts=MY_EVTS ){
     }
 
     fPROT.close();
+    fINIT.close();
     fNOIS.close();
     fOUT.close();
 
