@@ -77,3 +77,19 @@ To create noise events, please, use next command:
 conda activate pres-mc
 ./prm run-noise
 ```
+
+## Reconstruction
+
+
+### TPC signals
+
+```bash
+conda activate pres-mc
+./prm reco-tpc
+```
+
+This will prepare `all/FADC.root` where FADC histograms, derived informationa 
+as well as Monte-Carlo truth information is stored;
+
+
+
