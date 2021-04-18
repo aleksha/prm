@@ -1,5 +1,5 @@
 
-int MY_EVTS = 98;
+int MY_EVTS = 2;
 
 //--- Anodes positions
 double Z_anode_1 = -400.;
@@ -23,7 +23,7 @@ double DIFF_P =0.06; // parameter is obtained from German Korolev (PNPI)
 double DIFF_L =0.08; // parameter is obtained from German Korolev (PNPI)
 
 //--- Noise
-bool ADD_NOISE = false;
+bool ADD_NOISE = true;
 
 //--- Draw lact event
 bool DRAW_LAST   = true;

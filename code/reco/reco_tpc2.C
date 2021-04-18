@@ -124,8 +124,9 @@ void reco_tpc2( int Evts=MY_EVTS ){
         hINIT[pad] = new TH1F( pINIT," ;time, ns; voltage, a.u.", 2550+125, -125.*40., 40.*2550. );
 //        hFADC[pad]->GetXaxis()->SetRangeUser(0,20000);
 //        hFADC[pad]->GetXaxis()->SetRangeUser(90000,100000);
-//        hFADC[pad]->GetYaxis()->SetRangeUser(8000,16000);
-        hFADC[pad]->SetMinimum(0);
+        if(  ADD_NOISE )  hFADC[pad]->GetYaxis()->SetRangeUser(8000,16000);
+        if( !ADD_NOISE )  hFADC[pad]->GetYaxis()->SetRangeUser(   0,16000);
+//        hFADC[pad]->SetMinimum(0);
         hINIT[pad]->SetMinimum(0);
     }
     
@@ -154,7 +155,7 @@ void reco_tpc2( int Evts=MY_EVTS ){
                     for(int iii = 0 ; iii<125; iii++  ){
                         hFADC[p]->Fill( 40.*(bin+iii-125)-20., Digi[iii]*bc );
                     }}}
-/*
+
             // Electronic Noise
             if( ADD_NOISE ){
                 for(int p=0;p<12;p++){
@@ -166,7 +167,7 @@ void reco_tpc2( int Evts=MY_EVTS ){
                     }
                 }
             }
-
+/*
             // Eval signal info
             for(int p=0;p<12;p++){
                 info[p] = eval_info( hFADC[p] );
