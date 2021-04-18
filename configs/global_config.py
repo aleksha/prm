@@ -1,16 +1,18 @@
 
 #====
-EVENTS_GEN  = 100  #
+EVENTS_GEN  = 1000  #
 BEAM_NOISE  = True #
-BEAM_FREQ   =   2. # MHz
 
-SAFE_FACTOR = 0.1 # generate 10 percent more events for a beamfile
-USE_CORE    = True
+BEAM_FREQ   =  1.0 # MHz
 
-T_P_LOW  = 5. # MeV
-T_P_HIGH = 6. # MeV
-
+T_P_LOW  = 1.4 # MeV
+T_P_HIGH = 1.6 # MeV
 
 Z_LOW  = -380. # mm
 Z_HIGH = -370. # mm
+
+
+#==========================================
+SAFE_FACTOR = 1.1 # generate 10 percent more events for a beamfile
+USE_CORE    = True
 

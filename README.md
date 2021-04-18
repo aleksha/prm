@@ -80,7 +80,6 @@ conda activate pres-mc
 
 ## Reconstruction
 
-
 ### TPC signals
 
 ```bash
