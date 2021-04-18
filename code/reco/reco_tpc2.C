@@ -28,6 +28,7 @@ fadc_info info[12];
 TH1F* hFADC[12];
 TH1F* hINIT[12];
 TH2F* h2;
+TTree* out_tree;
 
 double Digi[175];
 
@@ -139,6 +140,37 @@ void reco_tpc2( int Evts=MY_EVTS ){
     std::ofstream fOUT("./signal.data"  , std::ios::trunc);
 
 
+    out_tree = new TTree("out_tree","tpc");
+    for(int pad=0;pad<12;pad++){
+        // Histo
+        if(pad<10){ pFADC.Form ("hFADC_0%d", pad); } else{ pFADC.Form ("hFADC_%d", pad); }
+        out_tree->Branch( pFADC, "TH1F",&hFADC[pad],32000,0);
+        
+        if(pad<10){ pFADC.Form ("is_fired_0%d", pad); } else{ pFADC.Form ("is_fired_%d", pad); }
+        out_tree->Branch( pFADC, &info[pad].is_fired );
+
+        if(pad<10){ pFADC.Form ("av_0%d", pad); } else{ pFADC.Form ("av_%d", pad); }
+        out_tree->Branch( pFADC, &info[pad].average );
+
+        if(pad<10){ pFADC.Form ("base_0%d", pad); } else{ pFADC.Form ("base_%d", pad); }
+        out_tree->Branch( pFADC, &info[pad].base );
+
+        if(pad<10){ pFADC.Form ("peak_0%d", pad); } else{ pFADC.Form ("peak_%d", pad); }
+        out_tree->Branch( pFADC, &info[pad].peak );
+
+        if(pad<10){ pFADC.Form ("mbp_0%d", pad); } else{ pFADC.Form ("mbp_%d", pad); }
+        out_tree->Branch( pFADC, &info[pad].mbp );
+
+        if(pad<10){ pFADC.Form ("start_0%d", pad); } else{ pFADC.Form ("start_%d", pad); }
+        out_tree->Branch( pFADC, &info[pad].start );
+
+        if(pad<10){ pFADC.Form ("end_0%d", pad); } else{ pFADC.Form ("end_%d", pad); }
+        out_tree->Branch( pFADC, &info[pad].end );
+
+        if(pad<10){ pFADC.Form ("energy_0%d", pad); } else{ pFADC.Form ("energy_%d", pad); }
+        out_tree->Branch( pFADC, &info[pad].energy );
+    }
+
     int same_pad=0;
     int steps = 0;
     float E_same = 0.;
@@ -167,7 +199,7 @@ void reco_tpc2( int Evts=MY_EVTS ){
                     }
                 }
             }
-/*
+
             // Eval signal info
             for(int p=0;p<12;p++){
                 info[p] = eval_info( hFADC[p] );
@@ -178,7 +210,7 @@ void reco_tpc2( int Evts=MY_EVTS ){
                     fOUT << hFADC[ CH_WRITE ]->GetBinContent(ss) << " " ;
                 fOUT << "\n" ;
             }
-*/
+
 //            if( !(ev%5) ) std::cout << "PROCESSED: "<< ev << " events\n";
             std::cout << ev << "\t" << same_pad << "\t" << steps ;
             std::cout       << "\t" << 100.*same_pad/steps ;
@@ -187,6 +219,7 @@ void reco_tpc2( int Evts=MY_EVTS ){
             E_same = 0.;
             E_diff = 0.;
 
+            out_tree->Fill();
             if(ev==Evts) break;
 
             for(int p=0;p<12;p++){ hFADC[p]->Reset(); hINIT[p]->Reset(); }
@@ -260,7 +293,11 @@ void reco_tpc2( int Evts=MY_EVTS ){
         canv->Close();
     }
 
-
+    TFile *out_file = new TFile("FADC.root","RECREATE");
+    out_tree->Write();
+    out_file->Write();
+    out_file->Close();
+ 
     gSystem->Exit(0);
 
 }
