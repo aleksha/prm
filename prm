@@ -19,6 +19,9 @@ then
     echo "./prm run-proton  : run only recoil";
     echo "./prm run-noise   : generate noise events (pres-mc env)";
     echo ""
+    echo "RECO:"
+    echo "./prm reco-tpc    : TPC reconstruction";
+    echo ""
     echo "CLEAN:"
     echo "./prm clean       : clean build, run and output directories";
     echo "./prm clean-ext   : remove all externals";
@@ -83,6 +86,12 @@ fi
 if [ $1 = run-proton ]
 then
     source control/run_prot.sh;
+fi
+
+# ----- reco-tpc ----
+if [ $1 = reco-tpc ]
+then
+    source control/reco_tpc.sh;
 fi
 
 # ----- download noise dump file cmd ----

@@ -1,0 +1,10 @@
+cd output;
+cp -v ../code/reco/reco_tpc2.C .;
+root -b reco_tpc2.C+;
+mv FADC.root all/;
+mv signal.data all/;
+mv reco_tpc2.C scripts_done/;
+rm *.pcm *.d *.so;
+mkdir figs;
+mc *png figs/;
+cd ../;
