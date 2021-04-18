@@ -11,6 +11,7 @@
 #include "TH1F.h"
 #include "TH1S.h"
 #include "TH2S.h"
+#include "TH2F.h"
 #include "TF1.h"
 #include "TSystem.h"
 #include "TRandom.h"
@@ -26,6 +27,8 @@
 fadc_info info[12];
 TH1F* hFADC[12];
 TH1F* hINIT[12];
+TH2F* h2;
+
 double Digi[175];
 
 double time_shifts[1000];
@@ -78,6 +81,10 @@ void load_Digi(){
 }
 
 
+double path_length( double z ){
+	if( z<0 ){ return z-Z_anode_1+10.; }
+    return  Z_anode_2-10.- z;
+}
 
 
 void reco_tpc2( int Evts=MY_EVTS ){
@@ -93,7 +100,7 @@ void reco_tpc2( int Evts=MY_EVTS ){
 //==============================================================================
 
     int ev, vol;
-    double dE,x,y,z,t,ll, path_length, Val;
+    double dE,x,y,z,t,ll,Val;
     double xi,yi,zi,ti,xf,yf,zf,tf;
     double dx, dy, dz, dt;
     double xd, yd, zd; // smeared by transverse and longitudional diffusion
@@ -114,23 +121,40 @@ void reco_tpc2( int Evts=MY_EVTS ){
             pINIT.Form ("hINIT_%d", pad);
         }
         hFADC[pad] = new TH1F( pFADC," ;time, ns; voltage, a.u.", 2550, 0., 40.*2550. );
-        hINIT[pad] = new TH1F( pINIT," ;time, ns; voltage, a.u.", 2550, 0., 40.*2550. );
+        hINIT[pad] = new TH1F( pINIT," ;time, ns; voltage, a.u.", 2550+125, -125.*40., 40.*2550. );
 //        hFADC[pad]->GetXaxis()->SetRangeUser(0,20000);
 //        hFADC[pad]->GetXaxis()->SetRangeUser(90000,100000);
 //        hFADC[pad]->GetYaxis()->SetRangeUser(8000,16000);
         hFADC[pad]->SetMinimum(0);
         hINIT[pad]->SetMinimum(0);
     }
+    
+    h2 = new TH2F("h2",";time, ns; anode", 2550, 0., 40.*2550, 12,-0.5,11.5);
 
+    TH1F *hSL = new TH1F("hSL",";l, mm;", 3500, -3500, 3500);
+    TH1F *hST = new TH1F("hST",";t, ch;", 3500, -3500, 3500);
     std::ifstream fPROT("all/tpc.data" , std::ios::in);
     std::ifstream fNOIS("noise/noise.data"  , std::ios::in);
     std::ofstream fOUT("./signal.data"  , std::ios::trunc);
 
 
+    int same_pad=0;
+    int steps = 0;
+    float E_same = 0.;
+    float E_diff = 0.;
+    float t_anod_f, t_anod_i, bc;
+
     while( fPROT >> ev >> vol >> dE >> xi >> yi >> zi >> ti >> xf >> yf >> zf >> tf ){
 
         if(ev>EVENT){
-
+        
+            for(int p=0;p<12;p++){
+                for(int bin=1;bin<2551+125;bin++){
+                    bc = hINIT[p]->GetBinContent(bin);
+                    for(int iii = 0 ; iii<125; iii++  ){
+                        hFADC[p]->Fill( 40.*(bin+iii-125)-20., Digi[iii]*bc );
+                    }}}
+/*
             // Electronic Noise
             if( ADD_NOISE ){
                 for(int p=0;p<12;p++){
@@ -153,26 +177,36 @@ void reco_tpc2( int Evts=MY_EVTS ){
                     fOUT << hFADC[ CH_WRITE ]->GetBinContent(ss) << " " ;
                 fOUT << "\n" ;
             }
-
+*/
 //            if( !(ev%5) ) std::cout << "PROCESSED: "<< ev << " events\n";
-//            std::cout << "PROCESSED: "<< ev << " events\n";
+            std::cout << ev << "\t" << same_pad << "\t" << steps ;
+            std::cout       << "\t" << 100.*same_pad/steps ;
+            std::cout       << "\t" << 100.*E_same/(E_same+E_diff) << "\n";
+            same_pad=0; steps=0;
+            E_same = 0.;
+            E_diff = 0.;
 
             if(ev==Evts) break;
 
             for(int p=0;p<12;p++){ hFADC[p]->Reset(); hINIT[p]->Reset(); }
-
+            h2->Reset();
             EVENT=ev;
         }
 
-
-//        if( vol==10 ){
-        if( vol==0 ){
-
+        if( vol==10 ){
+        
+        	steps++;
+        	if( get_pad2(xi,yi,zi) == get_pad2(xf,yf,zf) ){
+        	    same_pad++; E_same += dE;
+        	} else{ E_diff += dE; }
+        	
             N_e = int( dE/ I_av );
             ll = 1000.*sqrt(pow(xf-xi,2)+pow(yf-yi,2)+pow(zf-zi,2));
-            Nsub = int(N_e/Ne_MAX);
-            if(Nsub < int(ll/Ll_MAX)) Nsub = int(ll/Ll_MAX);
 
+       	    t_anod_f = tf + ( path_length(zf) / W1 );
+       	    t_anod_i = tf + ( path_length(zi) / W1 );
+       	    
+       	    Nsub = int( fabs(t_anod_f - t_anod_i) );
             if(Nsub<1) Nsub=1;
 
             if(N_e>0){
@@ -187,32 +221,21 @@ void reco_tpc2( int Evts=MY_EVTS ){
                     z = zi + 0.5*dz + dz*ee;
                     t = ti + 0.5*dt + dt*ee;
                     fpad = get_pad2(x,y,z);
-
-                    if( z<0){
-                        path_length = z-Z_anode_1+10.;
-                    } else{
-                        path_length = Z_anode_2-10.- z;
-                    }
-
-                    if(ADD_DIFFUSION){
-                        x = x + gRandom->Gaus(0,DIFF_P*sqrt(path_length/10.));
-                        y = y + gRandom->Gaus(0,DIFF_P*sqrt(path_length/10.));
-                        z = z + gRandom->Gaus(0,DIFF_L*sqrt(path_length/10.));
-                    }
-
-
+					t_anod = t + ( path_length(z) / W1)  ;
                     if(fpad>-1){
-                      t_anod = t + ( path_length / W1)  ;
+                      t_anod = t + ( path_length(z) / W1)  ;
                       tt = 20;
+                      h2->Fill(t_anod + tt, fpad, Calib*N_e/Nsub);
                       hINIT[fpad]->Fill(t_anod + tt, Calib*N_e/Nsub);
-//                      for(int iii = 0 ; iii<125; iii++  ){
-//                          hFADC[fpad]->Fill(t_anod + tt, Calib*Digi[iii]*N_e/Nsub);
-//                          tt = tt + 40 ;
-//                        }
                     }
                 }
             }
+      	    
+      	    hST->Fill( (t_anod_f - t_anod_i)/40. );
+            hSL->Fill(ll/1000.);
+
         }
+        
     }
 
     fPROT.close();
@@ -222,18 +245,20 @@ void reco_tpc2( int Evts=MY_EVTS ){
 //==============================================================================
 // finishing
 //==============================================================================
+
     if( DRAW_LAST ){
         TCanvas* canv = new TCanvas("canv","canv",1200,300);
         gStyle->SetOptStat(0);
         for(int p=0;p<12;p++){
-//            hFADS[p]->Draw("hist");
-            hINIT[p]->Draw("hist");
+            hFADC[p]->Draw("hist");
+//            hINIT[p]->Draw("hist");
             if(p<10){pFADC.Form("FADS_0%d.png",p);}
             else{ pFADC.Form("FADS_%d.png",p);}
             canv->Print( pFADC );
         }
         canv->Close();
     }
+
 
     gSystem->Exit(0);
 
