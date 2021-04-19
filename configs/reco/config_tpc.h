@@ -1,5 +1,5 @@
 
-int MY_EVTS = 2;
+int MY_EVTS = 999;
 
 //--- Anodes positions
 double Z_anode_1 = -400.;
@@ -28,7 +28,7 @@ bool ADD_NOISE = true;
 //--- Draw lact event
 bool DRAW_LAST   = true;
 
-//--- Write ASCII
+//--- Write ASCII (outdated)
 bool WRITE_ASCII = false;
 int  CH_WRITE    = 1;
 int  CH_START    = 1;

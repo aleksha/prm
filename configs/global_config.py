@@ -3,7 +3,7 @@
 EVENTS_GEN  = 1000  #
 BEAM_NOISE  = True #
 
-BEAM_FREQ   =  1.0 # MHz
+BEAM_FREQ   =  0.1 # MHz
 
 T_P_LOW  = 1.4 # MeV
 T_P_HIGH = 1.6 # MeV

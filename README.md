@@ -92,3 +92,21 @@ as well as Monte-Carlo truth information is stored;
 
 
 
+## Bunch of working commands
+
+Assuming externals are installed
+
+```bash
+./prm clean
+./prm setup-pilot
+conda activate g4-mc
+./prm build
+conda activate pres-mc
+./prm run
+./prm run-noise
+./prm reco-tpc
+```
+
+## Data analysis
+
+Some scripts can be found in the `analysis/` directory.
