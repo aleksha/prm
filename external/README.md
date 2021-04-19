@@ -20,13 +20,12 @@ Second, create `Geant4` envoirment:
 conda env create -f environment.yml
 conda activate prm-env
 ```
-
+During the rest of the tutorials you are expected to have `prm-env` environment activated.
 
 ## Event generator
 
 It's better to use automatic config version for the `ESEPP`.
 ```bash
-conda activate pres-mc
 git clone https://github.com/nuramatov/esepp.git
 cd esepp
 make
