@@ -40,9 +40,8 @@ In future two other options will be available:
 
 ## Build `Geant4` app
 
-First you must activete proper envoirment and then run command:
+First you must activate proper envoirment and then run command:
 ```bash
-conda activate g4-mc
 ./prm build
 ```
 As a result an `exec_PRM` application should be compiled.
@@ -55,7 +54,6 @@ particles to trace!
 
 Next command will run four prepared runners:
 ```bash
-conda activate g4-mc
 ./prm run
 ```
 
@@ -74,7 +72,6 @@ A configuration file is `configs/noise/config_noise.py`.
 Dump file should be in `externals/noise/` directory (see above).
 To create noise events, please, use next command:
 ```bash
-conda activate pres-mc
 ./prm run-noise
 ```
 
@@ -83,7 +80,6 @@ conda activate pres-mc
 ### TPC signals
 
 ```bash
-conda activate pres-mc
 ./prm reco-tpc
 ```
 
@@ -99,9 +95,7 @@ Assuming externals are installed
 ```bash
 ./prm clean
 ./prm setup-pilot
-conda activate g4-mc
 ./prm build
-conda activate pres-mc
 ./prm run
 ./prm run-noise
 ./prm reco-tpc
