@@ -72,14 +72,16 @@ then
     source control/run_init.sh;
     source control/run_scat.sh;
     source control/run_prot.sh;
-    source control/merge_hits.sh;
+    source control/merge_all.sh;
 fi
 
 # ----- run-muon ----
 if [ $1 = run-muon ]
 then
+    source control/run_beam.sh;
     source control/run_init.sh;
     source control/run_scat.sh;
+    source control/merge_hits.sh;    
 fi
 
 # ----- run-proton ----

@@ -40,3 +40,10 @@ merge_two_files( f1="init/out.data", f2="scat/out.data", fm="temp1.data");
 print("    temp1 + beam = out")
 merge_two_files( f1="temp1.data", f2="beam/out.data", fm="out.data");
 
+print("MERGE tpc.data FILES")
+print("    init + scat  = temp2")
+merge_two_files( f1="init/tpc.data", f2="scat/tpc.data", fm="temp2.data");
+print("    prot + beam = temp3")
+merge_two_files( f1="prot/tpc.data", f2="beam/tpc.data", fm="temp3.data");
+print("    temp2 + temp3 = tpc")
+merge_two_files( f1="temp2.data", f2="temp3.data", fm="tpc.data");
