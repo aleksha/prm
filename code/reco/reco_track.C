@@ -2,8 +2,9 @@
 #include <iostream>
 #include <iomanip>
 
-#include "histo_funcs.cc"
 #include "../configs/reco/config_track.h"
+#include "../code/reco/fadc.cc"
+#include "../code/reco/histo_funcs.cc"
 
 #include "TGraph.h"
 #include "TH1F.h"
@@ -27,7 +28,7 @@ struct hits_info
     double    time[EVENT_SIZE];
     int n;
 };
-/*
+
 TVector3 Vertex(TVector3 p1, TVector3 b, TVector3 p2, TVector3 d){
 
     TVector3 d1, d2, n1, n2, c1, c2, rr;
@@ -43,9 +44,25 @@ TVector3 Vertex(TVector3 p1, TVector3 b, TVector3 p2, TVector3 d){
 
     rr = (c1+c2)*0.5 ;
 
-    return rr.Z();
+    return rr;
 }
-*/
+
+double Distance(TVector3 p1, TVector3 b, TVector3 p2, TVector3 d){
+
+    TVector3 d1, d2, n1, n2, c1, c2, rr;
+
+    d1 = ( b - p1 ).Unit();
+    d2 = ( d - p2 ).Unit();
+
+    n1 = d1.Cross( d2.Cross(d1) );
+    n2 = d2.Cross( d1.Cross(d2) );
+
+    c1 = p1 + d1 * ( ( ( p2 - p1 ) * n2 ) / ( d1*n2 ) );
+    c2 = p2 + d2 * ( ( ( p1 - p2 ) * n1 ) / ( d2*n1 ) );
+
+    return (c1-c2).Mag() ;
+}
+
 hits_info info[10];
 
 
@@ -129,6 +146,47 @@ float calc_angle3(){
     return 1000.*1000.*(v4-v3).Angle(v2-v1);
 }
 
+float calc_vertex( int cn=3 ){
+    TVector3 v1, v2, v3, v4;
+
+    if(info[0].n>0 ){ v1 = info[0].vect[0]; }
+    else{             v1 = info[1].vect[0]; }
+
+    if(info[2].n>0 ){ v2 = info[2].vect[0]; }
+    else{             v2 = info[3].vect[0]; }
+
+    if(info[4].n>0 ){ v3 = info[4].vect[0]; }
+    else{             v3 = info[5].vect[0]; }
+
+    if(info[6].n>0 ){ v4 = info[6].vect[0]; }
+    else{             v4 = info[7].vect[0]; }
+
+    if( cn==1 ) return Vertex( v1, v2, v3, v4 ).X();
+    if( cn==2 ) return Vertex( v1, v2, v3, v4 ).Y();
+    return Vertex( v1, v2, v3, v4 ).Z();
+
+}
+
+
+float calc_distance(){
+    TVector3 v1, v2, v3, v4;
+
+    if(info[0].n>0 ){ v1 = info[0].vect[0]; }
+    else{             v1 = info[1].vect[0]; }
+
+    if(info[2].n>0 ){ v2 = info[2].vect[0]; }
+    else{             v2 = info[3].vect[0]; }
+
+    if(info[4].n>0 ){ v3 = info[4].vect[0]; }
+    else{             v3 = info[5].vect[0]; }
+
+    if(info[6].n>0 ){ v4 = info[6].vect[0]; }
+    else{             v4 = info[7].vect[0]; }
+
+    return Distance( v1, v2, v3, v4 ) ;
+
+}
+
 
 void reco_track(){
 
@@ -142,7 +200,10 @@ void reco_track(){
     int nGood=0;
     int nBad =0;
 
-    float Ang,Ang1,Ang2;
+    float Ang, Ang1, Ang2, Vtx, Dis;
+ 
+    TH1F* hVtx  = new TH1F("hVtx" ,";Z_{rec}, mm;Evts", 300, -600,  600);
+    TH1F* hDis  = new TH1F("hDis" ,";#DeltaL_{rec}, mm;Evts", 100,    0,  1);
 
     TH1F* hAng  = new TH1F("hAng" ,";angle,#mu rad;Evts", 150, 0, 1500);
     TH1F* hAng1 = new TH1F("hAng1",";angle,#mu rad;Evts", 150, 0, 1500);
@@ -173,7 +234,13 @@ void reco_track(){
             if( good_event2() ){ 
                 nGood++;
                 Ang  = calc_angle3();
-                if( Ang>0 && Ang<1500)   hAng->Fill( Ang  );
+                Vtx  = calc_vertex();
+                Dis  = calc_distance();
+                if( Ang>0 && Ang<1500) {
+                    hAng->Fill( Ang );
+                    hVtx->Fill( Vtx );
+                    hDis->Fill( Dis );
+                }
             } else {nBad++;}
 
 
@@ -191,6 +258,10 @@ void reco_track(){
 //    hAng1->Draw();
 //    hAng2->Draw("same");
     canv->Print("ANG.png");
+    hVtx->Draw();
+    canv->Print("VTX.png");
+    hDis->Draw();
+    canv->Print("DIS.png");
 
     std::cout << "Good / Bad : " << nGood << " / " << nBad << " \n";
     std::cout << "Total      : " << EVENT << " \n";

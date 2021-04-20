@@ -38,6 +38,11 @@ then
     ./prm -h;
 fi
 
+#===============================================================================
+# EXTERNALS
+#===============================================================================
+#
+
 # ----- download noise dump file cmd ----
 if [ $1 = get-ext ]
 then
@@ -51,24 +56,33 @@ then
     cd ../../;
 fi
 
-# ----- setup pilot ----
-if [ $1 = setup-pilot ]
-then
-    source control/setup_pilot.sh;
-fi
-
 # ----- esepp run  ----
 if [ $1 = esepp ]
 then
     source control/gen_esepp.sh;
 fi
 
+#===============================================================================
+# SETUP and BUILD
+#===============================================================================
+#
+
+# ----- setup pilot ----
+if [ $1 = setup-pilot ]
+then
+    source control/setup_pilot.sh;
+fi
 
 # ----- build cmd ----
 if [ $1 = build ]
 then
     source control/build_g4.sh;
 fi
+
+#===============================================================================
+# RUN
+#===============================================================================
+#
 
 # ----- run-all -----
 if [ $1 = run ]
@@ -95,17 +109,33 @@ then
     source control/run_prot.sh;
 fi
 
+# ----- download noise dump file cmd ----
+if [ $1 = run-noise ]
+then
+    source control/run_noise.sh
+fi
+
+#===============================================================================
+# RECO
+#===============================================================================
+#
+
 # ----- reco-tpc ----
 if [ $1 = reco-tpc ]
 then
     source control/reco_tpc.sh;
 fi
 
-# ----- download noise dump file cmd ----
-if [ $1 = run-noise ]
+# ----- reco-tpc ----
+if [ $1 = reco-track ]
 then
-    source control/run_noise.sh
+    source control/reco_track.sh;
 fi
+
+#===============================================================================
+# CLEAN
+#===============================================================================
+#
 
 # ----- clean cmd ----
 if [ $1 = clean ]
