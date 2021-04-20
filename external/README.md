@@ -39,7 +39,7 @@ cd esepp/
 make
 ```
 
-If you want to run it manually? please, edit `config.ini` and run it:
+If you want to run it manually, please, edit `config.ini` and run it:
 ```bash
 cp ../../configs/esepp/config.ini ./
 python start.py config.ini

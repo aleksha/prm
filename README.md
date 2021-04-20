@@ -16,6 +16,7 @@ This will allow you to:
   * Configure enviorment
   * Download and compile ESEPP event generator
 
+
 Next, by running:
 ```bash
 ./prm get-ext
@@ -23,6 +24,11 @@ Next, by running:
 one can download beamfile and dump for the noise data.
 
 ## To start new project
+
+Activate env:
+```bash
+conda activate prm-env
+```
 
 To prepare to simulate AMBER pilot run event, type:
 ```bash

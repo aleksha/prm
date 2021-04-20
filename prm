@@ -33,6 +33,11 @@ then
     ./prm -h;
 fi
 
+if [ $1 = help ]
+then
+    ./prm -h;
+fi
+
 # ----- download noise dump file cmd ----
 if [ $1 = get-ext ]
 then
