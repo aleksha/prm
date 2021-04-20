@@ -22,6 +22,15 @@ conda activate prm-env
 ```
 During the rest of the tutorials you are expected to have `prm-env` environment activated.
 
+
+## Still need :-(
+
+Second, create `Geant4` envoirment:
+```bash
+conda create --name g4-mc geant4 compilers cmake make
+conda activate g4-mc
+```
+
 ## Event generator
 
 It's better to use automatic config version for the `ESEPP`.

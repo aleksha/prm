@@ -48,6 +48,7 @@ In future two other options will be available:
 
 First you must activate proper envoirment and then run command:
 ```bash
+conda activate g4-mc
 ./prm build
 ```
 As a result an `exec_PRM` application should be compiled.

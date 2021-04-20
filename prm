@@ -124,7 +124,7 @@ fi
 # ----- clean cmd ----
 if [ $1 = clean-all ]
 then
-    ./prm clean
+    ./prm clean;
     ./prm clean-ext;
     rm -rf external/esepp*;
 fi
