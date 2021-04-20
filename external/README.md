@@ -17,19 +17,15 @@ conda config --add channels conda-forge
 
 Second, create `Geant4` envoirment:
 ```bash
-conda create --name g4-mc geant4 compilers cmake make
-conda activate g4-mc
+conda env create -f environment.yml
+conda activate prm-env
 ```
-
-Third, create envoirment for `ESEPP`, `ROOT` and `OstapHEP`.
-To setup enviorment, please, follow this: https://github.com/aleksha/pres-mc
-
+During the rest of the tutorials you are expected to have `prm-env` environment activated.
 
 ## Event generator
 
 It's better to use automatic config version for the `ESEPP`.
 ```bash
-conda activate pres-mc
 git clone https://github.com/nuramatov/esepp.git
 cd esepp
 make
@@ -37,7 +33,6 @@ make
 
 Instead of cloning from github one can download a frozen version:
 ```bash
-conda activate pres-mc
 wget http://adzyuba.web.cern.ch/adzyuba/d/esepp.tar.gz
 tar zxvf esepp.tar.gz
 cd esepp/
@@ -51,7 +46,6 @@ python start.py config.ini
 ```
 or run
 ```bash
-conda activate pres-mc
 ./prm esepp
 ```
 in the project direcory.
