@@ -136,7 +136,7 @@ void reco_track(){
     double dE, x, y, z, t;
     
 
-    std::ifstream fMERGED("merged.data" , std::ios::in);
+    std::ifstream fMERGED("all/out.true" , std::ios::in);
 
     int EVENT = 0;
     int nGood=0;
