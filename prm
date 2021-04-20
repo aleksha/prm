@@ -126,10 +126,16 @@ then
     source control/reco_tpc.sh;
 fi
 
-# ----- reco-tpc ----
+# ----- reco-trk ----
 if [ $1 = reco-track ]
 then
     source control/reco_track.sh;
+fi
+
+# ----- reco-trk ----
+if [ $1 = find-track ]
+then
+    source control/find_track.sh;
 fi
 
 #===============================================================================

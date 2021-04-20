@@ -182,8 +182,42 @@ float calc_distance(){
 
     if(info[6].n>0 ){ v4 = info[6].vect[0]; }
     else{             v4 = info[7].vect[0]; }
-
+    
     return Distance( v1, v2, v3, v4 ) ;
+
+}
+
+
+float calc_Ls3( int ls=3){
+    TVector3 v1, v2, v3, v4;
+    double x3,y3;
+    if(info[0].n>0 ){ v1 = info[0].vect[0]; }
+    else{             v1 = info[1].vect[0]; }
+
+    if(info[2].n>0 ){ v2 = info[2].vect[0]; }
+    else{             v2 = info[3].vect[0]; }
+
+    if(info[4].n>0 ){ v3 = info[4].vect[0]; }
+    else{             v3 = info[5].vect[0]; }
+
+    if(info[6].n>0 ){ v4 = info[6].vect[0]; }
+    else{             v4 = info[7].vect[0]; }
+
+    TVector3 uv = (v2-v1).Unit();
+
+    if(ls==3){
+        x3 = v2.X() + (v3.Z()-v2.Z())*uv.X();
+        y3 = v2.Y() + (v3.Z()-v2.Z())*uv.Y();
+        return sqrt( pow(x3-v3.X(),2) + pow(y3-v3.Y(),2) ) ;
+    }
+
+    uv = (v2-v1).Unit();
+
+    x3 = v2.X() + (v4.Z()-v2.Z())*uv.X();
+    y3 = v2.Y() + (v4.Z()-v2.Z())*uv.Y();
+
+    return sqrt( pow(x3-v4.X(),2) + pow(y3-v4.Y(),2) ) ;
+
 
 }
 
@@ -200,10 +234,13 @@ void reco_track(){
     int nGood=0;
     int nBad =0;
 
-    float Ang, Ang1, Ang2, Vtx, Dis;
+    float Ang, Ang1, Ang2, Vtx, Dis, Ls3, Ls4;
  
     TH1F* hVtx  = new TH1F("hVtx" ,";Z_{rec}, mm;Evts", 300, -600,  600);
     TH1F* hDis  = new TH1F("hDis" ,";#DeltaL_{rec}, mm;Evts", 100,    0,  1);
+
+    TH1F* hLs3  = new TH1F("hLs3" ,";#DeltaL_{rec}, mm;Evts", 100,    0,  1);
+    TH1F* hLs4  = new TH1F("hLs4" ,";#DeltaL_{rec}, mm;Evts", 100,    0,  1);
 
     TH1F* hAng  = new TH1F("hAng" ,";angle,#mu rad;Evts", 150, 0, 1500);
     TH1F* hAng1 = new TH1F("hAng1",";angle,#mu rad;Evts", 150, 0, 1500);
@@ -236,10 +273,14 @@ void reco_track(){
                 Ang  = calc_angle3();
                 Vtx  = calc_vertex();
                 Dis  = calc_distance();
+                Ls3  = calc_Ls3( 3 );
+                Ls4  = calc_Ls3( 4 );
                 if( Ang>0 && Ang<1500) {
                     hAng->Fill( Ang );
                     hVtx->Fill( Vtx );
                     hDis->Fill( Dis );
+                    hLs3->Fill( Ls3 );
+                    hLs4->Fill( Ls4 );
                 }
             } else {nBad++;}
 
@@ -262,6 +303,10 @@ void reco_track(){
     canv->Print("VTX.png");
     hDis->Draw();
     canv->Print("DIS.png");
+    hLs3->Draw();
+    canv->Print("Ls3.png");
+    hLs4->Draw();
+    canv->Print("Ls4.png");
 
     std::cout << "Good / Bad : " << nGood << " / " << nBad << " \n";
     std::cout << "Total      : " << EVENT << " \n";
