@@ -97,7 +97,7 @@ void make_pairs(){
     for(int s=0;s<8;s++){
       for(int i=0;i<info[s].n-1;i++){    
         for(int j=i+1;j<info[s].n;j++){
-          if( (info[s].vect[i]-info[s].vect[j]).Mag() < 0.05 ){
+          if( (info[s].vect[i]-info[s].vect[j]).Mag() < SAME_HIT_CUT ){
             fine[j][s]=false;
           }
     }}}
@@ -116,7 +116,7 @@ void make_pairs(){
           for(int St3=4;St3<6;St3++){
             for(int k=0;k<info[St3].n;k++){
               v3 = info[St3].vect[k]; 
-              if( calc_Ls(v1,v2,v3) < 0.25 ){
+              if( calc_Ls(v1,v2,v3) < R_L3 ){
                 fine[i][St1]=false;
                 fine[j][St2]=false;
                 fine[k][St3]=false;
@@ -125,7 +125,8 @@ void make_pairs(){
                 for(int St4=6;St4<8;St4++){
                   for(int l=0;l<info[St1].n;l++){
                     v4 = info[St4].vect[l]; 
-                    if( calc_Ls(v1,v2,v4) < 0.450 ){
+//                    if( calc_Ls(v1,v2,v4) < 0.300 ){
+                    if( calc_Ls(v2,v3,v4) < R_L4 ){
                       fine[l][St4]=false;
                     }
                  }}
@@ -159,9 +160,9 @@ void make_pairs(){
                              v4 = info[St4].vect[l];
                              
                               Dist = Distance( v1, v2, v3, v4 ) ;
-                              if( Dist < 0.2){
+                              if( Dist < DIST_CUT){
                                 Ang = 1000.*1000.*(v4-v3).Angle(v2-v1);
-                                if( Ang>200. && Ang<1500.){
+                                if( Ang>ANG_MIN && Ang<ANG_MAX){
                                   tp[ tpn ].v1 = v1;
                                   tp[ tpn ].v2 = v2;
                                   tp[ tpn ].v3 = v3;
@@ -197,7 +198,7 @@ void find_track(){
 */
     TH1F* hVtx  = new TH1F("hVtx" ,";Z_{rec}, mm;Evts", 300, -600,  600);
     TH1F* hDis  = new TH1F("hDis" ,";#DeltaL_{rec}, mm;Evts", 100,    0,  1);
-    TH1F* hAng  = new TH1F("hAng" ,";angle,#mu rad;Evts", 150, 0, 1500);
+    TH1F* hAng  = new TH1F("hAng" ,";angle,#mu rad;Evts", 130, 200, 1500);
 
     while( fMERGED >> ev >> vol >> dE >> x >> y >> z >> t ){
         if(ev>EVENT){
@@ -221,19 +222,25 @@ void find_track(){
         
         if( t>-50 && t<100050 ) fill_info(vol, x, y, z, t);
     }
-
+    fMERGED.close();
 
     std::cout << " Multiple candidates : " << 100.*float(nMult) / float(EVENT-1) << " %\n";
 
     TCanvas* canv = new TCanvas("canv","canv",800,600);
-    hAng->Fit("gaus");
     hAng->Draw();
     canv->Print("cANG.png");
     hVtx->Draw();
     canv->Print("cVTX.png");
     hDis->Draw();
     canv->Print("cDIS.png");
-    fMERGED.close();
+
+    TFile *fout = new TFile("histo_trk.root","RECREATE");
+    hAng->Write();
+    hAng->Write();
+    hVtx->Write();
+    hDis->Write();
+    fout->Close();
+    
     gSystem->Exit(0);
 
 }
